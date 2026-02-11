@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Registered Ecological Gardens</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #f6f2e8;
+  --text: #1c1c1c;
+  --accent: #4b5d3a;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'IBM Plex Sans', sans-serif;
+  overflow-x: hidden;
+}
+
+section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6vw;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 1s ease;
+}
+
+section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+h1, h2 {
+  font-family: 'Abril Fatface', serif;
+  font-weight: normal;
+  margin-bottom: 2rem;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+}
+
+h2 {
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+p {
+  max-width: 700px;
+  margin: 0 auto 1.2rem auto;
+  font-size: clamp(1rem, 1.3vw, 1.2rem);
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+.accent {
+  color: var(--accent);
+}
+
+.cta {
+  margin-top: 3rem;
+  display: inline-block;
+  padding: 1rem 2rem;
+  border: 1px solid var(--text);
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.cta:hover {
+  background: var(--text);
+  color: var(--bg);
+}
+</style>
+</head>
+
+<body>
+
+<section>
+  <div>
+    <h1>We built cities on ecosystems.</h1>
+    <p>Grasslands became subdivisions. Wetlands became drainage systems. Woodlands became property lines.</p>
+    <p>Nature did not vanish. It was divided.</p>
+  </div>
+</section>
+
+<section>
+  <div>
+    <h2>Most of our cities are not parks.</h2>
+    <p>They are private land. Backyards. Front gardens. Side setbacks.</p>
+    <p>Private land now makes up more urban area than public green space.</p>
+    <p class="accent">And most of it is ecologically silent.</p>
+  </div>
+</section>
+
+<section>
+  <div>
+    <h2>The collapse was gradual.</h2>
+    <p>Lawns replaced habitat. Exotics replaced indigenous plant communities.</p>
+    <p>Soil was compacted. Water was piped away. Pollinators declined.</p>
+    <p>Until depletion felt normal.</p>
+  </div>
+</section>
+
+<section>
+  <div>
+    <h2>The solution is already here.</h2>
+    <p>Behind fences. Under our feet.</p>
+    <p>Private gardens are the largest untapped environmental infrastructure in our cities.</p>
+  </div>
+</section>
+
+<section>
+  <div>
+    <h2>A garden is not decoration.</h2>
+    <p>It is biological infrastructure.</p>
+    <p>It can cool air, store carbon, absorb stormwater, rebuild soil systems, feed pollinators, reconnect habitat corridors.</p>
+    <p class="accent">Thousands together can change a city.</p>
+  </div>
+</section>
+
+<section>
+  <div>
+    <h2>Environmental repair is distributed.</h2>
+    <p>It does not sit only in national parks or government policy.</p>
+    <p>Most urban land belongs to everyday people.</p>
+    <p>Repair belongs to us.</p>
+  </div>
+</section>
+
+<section>
+  <div>
+    <h2>This is measurable.</h2>
+    <p>Biodiversity. Urban cooling. Soil carbon. Water retention.</p>
+    <p>What becomes measurable becomes valuable.</p>
+  </div>
+</section>
+
+<section>
+  <div>
+    <h2>Registered Ecological Gardens</h2>
+    <p>Recognising gardens that restore habitat, improve soil health, use place-based planting, and manage water intelligently.</p>
+    <p>This is not symbolic. It is ecological performance.</p>
+  </div>
+</section>
+
+<section>
+  <div>
+    <h2>The shift begins with you.</h2>
+    <p>You already influence land.</p>
+    <p>You already influence ecology.</p>
+    <p class="accent">The question is whether your garden participates.</p>
+    <a href="#" class="cta">Register Your Garden</a>
+  </div>
+</section>
+
+<script>
+const sections = document.querySelectorAll("section");
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting) {
+      entry.target.classList.add("visible");
+    }
+  });
+}, { threshold: 0.2 });
+
+sections.forEach(section => {
+  observer.observe(section);
+});
+</script>
+
+</body>
+</html>
