@@ -10,259 +10,238 @@
 
 <style>
   :root{
-    /* Light */
-    --bg: #f6f2e8;
-    --bg2:#efe8da;
-    --text:#171717;
-    --muted: rgba(23,23,23,0.72);
-    --hair: rgba(23,23,23,0.18);
+    /* === Brand pair (edit these two only) === */
+    --beige: #f6f2e8;     /* Nostalgic Beige */
+    --green: #1f3b2c;     /* Gardener Green */
 
-    /* Bronze / studio energy */
-    --bronze: #7a5a2a;
-    --bronze2:#a27a3a;
+    /* Derived */
+    --bg: var(--beige);
+    --fg: var(--green);
 
-    /* Cards */
-    --panel: rgba(255,255,255,0.34);
-    --panel2: rgba(255,255,255,0.18);
-
-    --shadow: 0 18px 50px rgba(0,0,0,0.08);
+    --muted: rgba(31, 59, 44, 0.72);
+    --hair:  rgba(31, 59, 44, 0.18);
+    --wash:  rgba(31, 59, 44, 0.06);
   }
 
-  /* Night */
   html[data-theme="dark"]{
-    --bg: #0f1210;
-    --bg2:#121713;
-    --text:#f3f1ea;
-    --muted: rgba(243,241,234,0.78);
-    --hair: rgba(243,241,234,0.18);
+    --bg: var(--green);
+    --fg: var(--beige);
 
-    --bronze: #d2a85c;
-    --bronze2:#f0c77a;
-
-    --panel: rgba(18,23,19,0.58);
-    --panel2: rgba(18,23,19,0.32);
-
-    --shadow: 0 18px 60px rgba(0,0,0,0.55);
+    --muted: rgba(246, 242, 232, 0.78);
+    --hair:  rgba(246, 242, 232, 0.18);
+    --wash:  rgba(246, 242, 232, 0.07);
   }
 
   *{box-sizing:border-box;margin:0;padding:0;}
   body{
-    background: radial-gradient(1200px 700px at 50% 10%, var(--bg2), var(--bg));
-    color: var(--text);
+    background: var(--bg);
+    color: var(--fg);
     font-family: "IBM Plex Sans", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     overflow-x:hidden;
   }
 
-  /* Ambient overlay canvas */
-  #net{
-    position:fixed;
-    inset:0;
-    z-index:0;
-    pointer-events:none;
-    opacity:0.42;
+  /* Subtle brand wash (no borders, no stars) */
+  .wash{
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(900px 520px at 20% 10%, var(--wash), transparent 62%),
+      radial-gradient(820px 560px at 80% 30%, var(--wash), transparent 60%),
+      radial-gradient(900px 700px at 50% 90%, var(--wash), transparent 60%);
+    opacity: 1;
+    z-index: 0;
   }
 
-  /* Top chrome */
-  .topbar{
-    position:fixed;
-    top:0; left:0; right:0;
-    z-index:10;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:18px 6vw;
-    backdrop-filter: blur(10px);
-    background: linear-gradient(to bottom, rgba(0,0,0,0.06), rgba(0,0,0,0));
-    border-bottom: 1px solid var(--hair);
-  }
-  html[data-theme="dark"] .topbar{
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35), rgba(0,0,0,0));
+  /* Top bar */
+  header{
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 5;
+    padding: 18px 6vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: color-mix(in srgb, var(--bg) 86%, transparent);
+    backdrop-filter: blur(8px);
   }
 
   .brand{
     display:flex;
-    align-items:baseline;
-    gap:12px;
-    letter-spacing:0.2px;
-    user-select:none;
+    flex-direction:column;
+    gap:6px;
+    line-height:1.05;
   }
-  .brand .name{
-    font-family:"Abril Fatface", serif;
-    font-weight:400;
+  .brand .title{
+    font-family: "Abril Fatface", serif;
+    font-weight: 400;
     font-size: 18px;
-    line-height:1;
+    letter-spacing: 0.2px;
   }
-  .brand .tag{
-    font-size:12px;
+  .brand .sub{
+    font-size: 12px;
     color: var(--muted);
-    border-left: 1px solid var(--hair);
-    padding-left:12px;
+    letter-spacing: 0.2px;
   }
 
   .controls{
     display:flex;
     align-items:center;
-    gap:10px;
+    gap: 10px;
+  }
+
+  .counter{
+    font-size: 12px;
+    color: var(--muted);
+    display:flex;
+    align-items:center;
+    gap: 8px;
+    padding: 9px 12px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--fg) 6%, transparent);
+  }
+  .counter strong{
+    color: var(--fg);
+    font-weight: 600;
+    letter-spacing: 0.2px;
   }
 
   .pill{
-    border: 1px solid var(--hair);
-    background: var(--panel2);
-    color: var(--text);
-    padding:9px 12px;
-    border-radius:999px;
-    font-size:12px;
-    cursor:pointer;
-    transition: transform .15s ease, border-color .2s ease, background .2s ease;
+    appearance:none;
+    border: none;
+    background: color-mix(in srgb, var(--fg) 10%, transparent);
+    color: var(--fg);
+    padding: 9px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: transform .15s ease, background .2s ease;
   }
-  .pill:hover{ transform: translateY(-1px); border-color: rgba(122,90,42,0.45); }
-  html[data-theme="dark"] .pill:hover{ border-color: rgba(210,168,92,0.55); }
+  .pill:hover{ transform: translateY(-1px); background: color-mix(in srgb, var(--fg) 14%, transparent); }
 
-  .counter{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    font-size:12px;
-    color: var(--muted);
-    padding:9px 12px;
-    border-radius:999px;
-    border: 1px solid var(--hair);
-    background: var(--panel2);
+  main{
+    position: relative;
+    z-index: 1;
+    padding-top: 84px; /* header offset */
   }
-  .counter strong{
-    color: var(--text);
-    font-weight:600;
-    letter-spacing:0.2px;
-  }
-  .dot{
-    width:7px;height:7px;border-radius:999px;
-    background: var(--bronze2);
-    box-shadow: 0 0 0 4px rgba(122,90,42,0.12);
-  }
-  html[data-theme="dark"] .dot{
-    box-shadow: 0 0 0 4px rgba(210,168,92,0.14);
-  }
-
-  /* Sections */
-  main{ position:relative; z-index:1; }
 
   section{
-    min-height:100vh;
+    min-height: 100vh;
     display:flex;
     align-items:center;
     justify-content:center;
-    padding: 9vh 6vw 8vh;
+    padding: 10vh 6vw 10vh;
     text-align:center;
-    opacity:0;
-    transform: translateY(34px);
-    transition: opacity 1s ease, transform 1s ease;
+
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 900ms ease, transform 900ms ease;
   }
-  section.visible{ opacity:1; transform: translateY(0); }
+  section.visible{
+    opacity: 1;
+    transform: translateY(0);
+  }
 
   .wrap{
     max-width: 860px;
     margin: 0 auto;
-    padding: clamp(18px, 3vw, 34px);
-    border: 1px solid var(--hair);
-    border-radius: 26px;
-    background: linear-gradient(180deg, var(--panel), var(--panel2));
-    box-shadow: var(--shadow);
   }
 
-  h1,h2{
-    font-family:"Abril Fatface", serif;
-    font-weight:400;
-    letter-spacing:0.2px;
+  h1, h2{
+    font-family: "Abril Fatface", serif;
+    font-weight: 400;
+    letter-spacing: 0.2px;
     margin-bottom: 18px;
   }
-  h1{ font-size: clamp(2.6rem, 6.2vw, 4.8rem); }
-  h2{ font-size: clamp(2.0rem, 4.4vw, 3.3rem); }
+  h1{ font-size: clamp(2.6rem, 6.2vw, 4.9rem); }
+  h2{ font-size: clamp(2.0rem, 4.4vw, 3.4rem); }
 
   p{
     max-width: 720px;
     margin: 0 auto 14px;
-    font-size: clamp(1.02rem, 1.3vw, 1.22rem);
+    font-size: clamp(1.02rem, 1.25vw, 1.22rem);
     line-height: 1.72;
     font-weight: 300;
     color: var(--muted);
   }
-  p strong{ color: var(--text); font-weight:600; }
-  .accent{ color: var(--bronze2); }
+  p strong{ color: var(--fg); font-weight: 600; }
+
+  /* Accent is just “full-strength text” in a sentence */
+  .accent{ color: var(--fg); font-weight: 600; }
 
   .micro{
-    margin-top: 14px;
+    margin-top: 16px;
     font-size: 12px;
     color: var(--muted);
-    opacity: 0.9;
   }
 
   .ctaRow{
-    margin-top: 28px;
+    margin-top: 26px;
     display:flex;
     gap: 12px;
     justify-content:center;
     flex-wrap: wrap;
   }
+
   .cta{
     display:inline-block;
     padding: 13px 20px;
     border-radius: 999px;
     text-decoration:none;
-    border: 1px solid var(--hair);
-    background: transparent;
-    color: var(--text);
     font-weight: 600;
     font-size: 13px;
-    letter-spacing:0.2px;
-    transition: transform .15s ease, background .25s ease, border-color .25s ease, color .25s ease;
+    letter-spacing: 0.2px;
+
+    color: var(--bg);
+    background: var(--fg);
+    transition: transform .15s ease, opacity .2s ease;
   }
-  .cta:hover{
-    transform: translateY(-1px);
-    border-color: rgba(122,90,42,0.55);
-    background: rgba(122,90,42,0.08);
+  .cta:hover{ transform: translateY(-1px); opacity: 0.92; }
+
+  .cta.secondary{
+    color: var(--fg);
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--hair);
   }
-  html[data-theme="dark"] .cta:hover{
-    border-color: rgba(210,168,92,0.62);
-    background: rgba(210,168,92,0.10);
-  }
-  .cta.primary{
-    border-color: rgba(122,90,42,0.55);
-    background: rgba(122,90,42,0.10);
-  }
-  html[data-theme="dark"] .cta.primary{
-    border-color: rgba(210,168,92,0.55);
-    background: rgba(210,168,92,0.12);
-  }
+  .cta.secondary:hover{ opacity: 0.95; }
 
   footer{
-    position:relative;
-    z-index:1;
-    padding: 26px 6vw 46px;
+    position: relative;
+    z-index: 1;
+    padding: 28px 6vw 54px;
     text-align:center;
     color: var(--muted);
     font-size: 12px;
   }
-  footer a{ color: var(--muted); text-decoration:none; border-bottom:1px solid var(--hair); }
-  footer a:hover{ color: var(--text); border-bottom-color: rgba(122,90,42,0.45); }
+  footer a{
+    color: var(--muted);
+    text-decoration: none;
+    border-bottom: 1px solid var(--hair);
+  }
+  footer a:hover{
+    color: var(--fg);
+    border-bottom-color: color-mix(in srgb, var(--fg) 40%, transparent);
+  }
 </style>
 </head>
 
 <body>
-<canvas id="net"></canvas>
+<div class="wash" aria-hidden="true"></div>
 
-<header class="topbar" role="banner" aria-label="Site header">
+<header>
   <div class="brand">
-    <div class="name">Registered Ecological Gardens</div>
-    <div class="tag">Gardens as living infrastructure</div>
+    <div class="title">Registered Ecological Gardens</div>
+    <div class="sub">A distributed movement for living infrastructure</div>
   </div>
 
   <div class="controls">
     <div class="counter" aria-label="Registered gardens counter">
-      <span class="dot" aria-hidden="true"></span>
       <span>Gardens registered:</span>
       <strong id="count">—</strong>
     </div>
-    <button class="pill" id="toggleTheme" type="button" aria-label="Toggle night mode">Night Mode</button>
+    <button class="pill" id="toggleTheme" type="button" aria-label="Toggle light/dark">
+      Dark Mode
+    </button>
   </div>
 </header>
 
@@ -280,8 +259,8 @@
     <div class="wrap">
       <h2>Most of our cities are not parks.</h2>
       <p>They are private land. Backyards. Front gardens. Side setbacks.</p>
-      <p><strong>Private land now makes up more urban area than public green space.</strong></p>
-      <p class="accent"><strong>And most of it is ecologically silent.</strong></p>
+      <p class="accent">Private land now makes up more urban area than public green space.</p>
+      <p class="accent">And most of it is ecologically silent.</p>
       <p class="micro">This isn’t blame. It’s a pattern we can change.</p>
     </div>
   </section>
@@ -299,16 +278,16 @@
     <div class="wrap">
       <h2>The solution is already here.</h2>
       <p>Behind fences. Under our feet.</p>
-      <p><strong>Private gardens are the largest untapped environmental infrastructure in our cities.</strong></p>
+      <p class="accent">Private gardens are the largest untapped environmental infrastructure in our cities.</p>
     </div>
   </section>
 
   <section>
     <div class="wrap">
       <h2>A garden is not decoration.</h2>
-      <p><strong>It is biological infrastructure.</strong></p>
+      <p class="accent">It is biological infrastructure.</p>
       <p>It can cool air, store carbon, absorb stormwater, rebuild soil systems, feed pollinators, reconnect habitat corridors.</p>
-      <p class="accent"><strong>Thousands together can change a city.</strong></p>
+      <p class="accent">Thousands together can change a city.</p>
     </div>
   </section>
 
@@ -316,7 +295,7 @@
     <div class="wrap">
       <h2>Environmental repair is distributed.</h2>
       <p>It does not sit only in national parks or government policy.</p>
-      <p><strong>Most urban land belongs to everyday people.</strong></p>
+      <p class="accent">Most urban land belongs to everyday people.</p>
       <p>Repair belongs to us.</p>
     </div>
   </section>
@@ -325,17 +304,17 @@
     <div class="wrap">
       <h2>This is measurable.</h2>
       <p>Biodiversity. Urban cooling. Soil carbon. Water retention.</p>
-      <p><strong>What becomes measurable becomes valuable.</strong></p>
+      <p class="accent">What becomes measurable becomes valuable.</p>
     </div>
   </section>
 
-  <!-- YIELD TEASER -->
+  <!-- Yield teaser -->
   <section>
     <div class="wrap">
       <h2>And in time, it can be rewarded.</h2>
       <p>When ecological outcomes can be measured, they can be recognised — not just socially, but economically.</p>
       <p>That’s the direction the world is moving: toward incentives for biodiversity, cooling, soil health, and water resilience.</p>
-      <p class="accent"><strong>Yield is the next layer:</strong> a way for gardens doing real environmental work to be valued — and potentially rewarded — for it.</p>
+      <p class="accent">Yield is the next layer: a way for gardens doing real environmental work to be valued — and potentially rewarded — for it.</p>
       <p><strong>Not promises.</strong> Not hype. A future that finally makes sense.</p>
     </div>
   </section>
@@ -343,7 +322,7 @@
   <section>
     <div class="wrap">
       <h2>Registered Ecological Gardens</h2>
-      <p><strong>Recognising gardens that perform.</strong></p>
+      <p class="accent">Recognising gardens that perform.</p>
       <p>Gardens that restore habitat, improve soil health, use place-based planting, and manage water intelligently.</p>
       <p><strong>This is not symbolic.</strong> It is ecological performance.</p>
     </div>
@@ -354,12 +333,12 @@
       <h2>The shift begins with you.</h2>
       <p>You already influence land.</p>
       <p>You already influence ecology.</p>
-      <p class="accent"><strong>The question is whether your garden participates.</strong></p>
+      <p class="accent">The question is whether your garden participates.</p>
 
       <div class="ctaRow">
-        <!-- Replace these hrefs with real URLs -->
-        <a class="cta primary" href="#" id="ctaRegister">Register Your Garden</a>
-        <a class="cta" href="#" id="ctaYield">Learn About Yield</a>
+        <!-- Replace hrefs with real URLs -->
+        <a class="cta" href="#" id="ctaRegister">Register Your Garden</a>
+        <a class="cta secondary" href="#" id="ctaYield">Learn About Yield</a>
       </div>
 
       <p class="micro">Not perfection. Progress — over time.</p>
@@ -371,27 +350,19 @@
 <footer>
   <div>© <span id="year"></span> Registered Ecological Gardens • Built by Gardener &amp; Son</div>
   <div style="margin-top:10px;">
-    <a href="#" id="footerLink">Read the criteria</a>
+    <a href="#" id="criteriaLink">Read the criteria</a>
   </div>
 </footer>
 
 <script>
-/* -----------------------------
-   Reveal-on-scroll (Wabi feel)
------------------------------- */
+/* Reveal-on-scroll */
 const sections = document.querySelectorAll("section");
 const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) entry.target.classList.add("visible");
-  });
+  entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add("visible"); });
 }, { threshold: 0.22 });
 sections.forEach(s => observer.observe(s));
 
-/* -----------------------------
-   Night mode toggle
-   - respects prefers-color-scheme
-   - persists choice in localStorage
------------------------------- */
+/* Theme toggle: flips beige/green only */
 const root = document.documentElement;
 const btn = document.getElementById("toggleTheme");
 const stored = localStorage.getItem("regTheme");
@@ -400,150 +371,32 @@ const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-schem
 function setTheme(mode){
   root.setAttribute("data-theme", mode);
   localStorage.setItem("regTheme", mode);
-  btn.textContent = (mode === "dark") ? "Day Mode" : "Night Mode";
+  btn.textContent = (mode === "dark") ? "Light Mode" : "Dark Mode";
 }
 setTheme(stored || (prefersDark ? "dark" : "light"));
 btn.addEventListener("click", () => {
-  const next = (root.getAttribute("data-theme") === "dark") ? "light" : "dark";
-  setTheme(next);
+  setTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark");
 });
 
-/* -----------------------------
-   Counter (demo now, real later)
-   - For now: uses localStorage seed
-   - Later: replace getCount() with fetch() from your registry JSON/API
------------------------------- */
+/* Counter (demo now; wire to real data later) */
 const countEl = document.getElementById("count");
-
 function getCount(){
-  // DEMO: persists a believable number locally
-  // Replace with: return fetch("...").then(r=>r.json()).then(d=>d.count);
+  // Replace later with fetch(...) from your registry JSON / API.
   const seedKey = "regCounterSeed";
   let n = parseInt(localStorage.getItem(seedKey) || "0", 10);
-  if (!n){
-    // Start with a movement-feel baseline (adjust as desired)
-    n = 37;
-    localStorage.setItem(seedKey, String(n));
-  }
+  if (!n){ n = 37; localStorage.setItem(seedKey, String(n)); }
   return Promise.resolve(n);
 }
-
-function formatNumber(n){
-  return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
+function formatNumber(n){ return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
 getCount().then(n => countEl.textContent = formatNumber(n)).catch(() => countEl.textContent = "—");
 
-/* -----------------------------
-   Animated “connected gardens” network
-   - subtle dots + lines
-   - adapts to theme
------------------------------- */
-const canvas = document.getElementById("net");
-const ctx = canvas.getContext("2d", { alpha: true });
-
-let W, H, DPR;
-function resize(){
-  DPR = Math.min(window.devicePixelRatio || 1, 2);
-  W = canvas.width = Math.floor(window.innerWidth * DPR);
-  H = canvas.height = Math.floor(window.innerHeight * DPR);
-  canvas.style.width = window.innerWidth + "px";
-  canvas.style.height = window.innerHeight + "px";
-}
-window.addEventListener("resize", resize);
-resize();
-
-function themeColors(){
-  const dark = root.getAttribute("data-theme") === "dark";
-  return {
-    dot: dark ? "rgba(240,199,122,0.55)" : "rgba(122,90,42,0.40)",
-    line: dark ? "rgba(240,199,122,0.12)" : "rgba(122,90,42,0.10)",
-    glow: dark ? "rgba(240,199,122,0.08)" : "rgba(122,90,42,0.06)"
-  };
-}
-
-let points = [];
-function initPoints(){
-  points = [];
-  const density = Math.max(18, Math.floor((window.innerWidth * window.innerHeight) / 65000));
-  for (let i=0; i<density; i++){
-    points.push({
-      x: Math.random()*W,
-      y: Math.random()*H,
-      vx: (Math.random()*0.35 + 0.10) * DPR * (Math.random()<0.5?-1:1),
-      vy: (Math.random()*0.35 + 0.10) * DPR * (Math.random()<0.5?-1:1),
-      r: (Math.random()*1.6 + 1.2) * DPR
-    });
-  }
-}
-initPoints();
-window.addEventListener("resize", initPoints);
-
-// soften motion when tab not active
-let last = performance.now();
-function tick(t){
-  const dt = Math.min(34, t-last); last=t;
-  ctx.clearRect(0,0,W,H);
-
-  const {dot, line, glow} = themeColors();
-  const maxDist = 150 * DPR;
-
-  // move
-  for (const p of points){
-    p.x += p.vx * (dt/16);
-    p.y += p.vy * (dt/16);
-
-    if (p.x < 0) p.x = W;
-    if (p.x > W) p.x = 0;
-    if (p.y < 0) p.y = H;
-    if (p.y > H) p.y = 0;
-  }
-
-  // lines
-  for (let i=0;i<points.length;i++){
-    for (let j=i+1;j<points.length;j++){
-      const a = points[i], b = points[j];
-      const dx = a.x-b.x, dy = a.y-b.y;
-      const d = Math.sqrt(dx*dx+dy*dy);
-      if (d < maxDist){
-        const alpha = (1 - d/maxDist);
-        ctx.strokeStyle = line.replace("0.10", (0.10*alpha).toFixed(4)).replace("0.12",(0.12*alpha).toFixed(4));
-        ctx.lineWidth = 1 * DPR;
-        ctx.beginPath();
-        ctx.moveTo(a.x,a.y);
-        ctx.lineTo(b.x,b.y);
-        ctx.stroke();
-      }
-    }
-  }
-
-  // dots
-  for (const p of points){
-    ctx.fillStyle = dot;
-    ctx.beginPath();
-    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fill();
-
-    // tiny glow
-    ctx.fillStyle = glow;
-    ctx.beginPath();
-    ctx.arc(p.x,p.y,p.r*3.0,0,Math.PI*2);
-    ctx.fill();
-  }
-
-  requestAnimationFrame(tick);
-}
-requestAnimationFrame(tick);
-
-/* -----------------------------
-   Footer year + placeholder links
------------------------------- */
 document.getElementById("year").textContent = new Date().getFullYear();
 
-// Hook these to real pages when ready:
+/* Placeholder links */
 document.getElementById("ctaRegister").addEventListener("click", (e)=>{ /* e.preventDefault(); location.href="..."; */ });
 document.getElementById("ctaYield").addEventListener("click", (e)=>{ /* e.preventDefault(); location.href="..."; */ });
-document.getElementById("footerLink").addEventListener("click", (e)=>{ /* e.preventDefault(); location.href="..."; */ });
+document.getElementById("criteriaLink").addEventListener("click", (e)=>{ /* e.preventDefault(); location.href="..."; */ });
 </script>
+
 </body>
 </html>
